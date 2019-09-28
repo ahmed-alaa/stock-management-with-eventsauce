@@ -34,65 +34,66 @@
                 position: relative;
             }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
             .content {
                 text-align: center;
             }
 
             .title {
-                font-size: 84px;
+                font-size: 32px;
             }
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
+            .title > a {
                 text-decoration: none;
-                text-transform: uppercase;
+                font-style: italic;
             }
 
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .text-grey {
+                color: #3d4852;
+            }
+
+            .text-red {
+                color: #be2323
+            }
+
+            .button-green {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                min-width: 150px;
+            }
+
+            .button-grey {
+                background-color: #e7e7e7;
+                color: black;
+                border: none;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                min-width: 150px;
+            }
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Stock Management using <a href="https://eventsauce.io"><span class="text-grey">Event</span><span class="text-red">Sauce</span></a>
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a class="button-green" href="https://eventsauce.io/docs">EventSauce Docs</a>
+                    <a class="button-grey" href="">Try me!</a>
                 </div>
             </div>
         </div>

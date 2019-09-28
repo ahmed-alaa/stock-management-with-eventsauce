@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        \App\Providers\EventSauceServiceProvider::class,
 
         /*
          * Application Service Providers...
