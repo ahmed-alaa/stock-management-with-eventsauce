@@ -9,10 +9,12 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "beberlei/assert": "^3.2",
         "eventsauce/eventsauce": "^0.6.0",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "ramsey/uuid": "^3.8"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
@@ -33,7 +35,9 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Domain\\": "domain/",
+            "Infrastructure\\": "infrastructure/"
         },
         "classmap": [
             "database/seeds",

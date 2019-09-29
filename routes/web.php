@@ -25,4 +25,4 @@ Route::get('/products', function () {
 Route::get('/products/add', function () {
     return view('product.add');
 });
-Route::post('/products/add', 'ProductController@add');
+Route::post('/products/add', 'Product\AddProductController@add');

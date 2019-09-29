@@ -51,11 +51,11 @@
                     <form>
                         <div class="form-group">
                             <label for="code">Code</label>
-                            <input type="text" class="form-control" id="code" placeholder="Product Code" required>
+                            <input type="text" class="form-control" name="product_code" id="code" placeholder="Product Code" required>
                         </div>
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Product Name" required>
+                            <input type="text" class="form-control" name="product_name" id="name" placeholder="Product Name" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                         <a class="btn btn-danger" href="/products">Cancel</a>
