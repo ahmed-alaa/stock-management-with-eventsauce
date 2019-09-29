@@ -14,3 +14,15 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+/**
+ * Products
+ */
+Route::get('/products', function () {
+    return view('product.list');
+});
+
+Route::get('/products/add', function () {
+    return view('product.add');
+});
+Route::post('/products/add', 'ProductController@add');
