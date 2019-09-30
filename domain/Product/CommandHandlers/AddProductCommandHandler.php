@@ -23,6 +23,10 @@ final class AddProductCommandHandler
         $this->repository = $productRepository;
     }
 
+    /**
+     * @param AddProduct $command
+     * @throws \Assert\AssertionFailedException
+     */
     public function handle(AddProduct $command)
     {
         /**
@@ -34,10 +38,15 @@ final class AddProductCommandHandler
          * Load Product from stream of events
          */
         $product = $this->repository->retrieve($productId);
-        var_dump($product);die();
+
         /**
          * Trigger Add Product
          */
-        $product->addProduct();
+        $product->addProduct($command->getCode(), $command->getName());
+
+        /**
+         * Persist the events
+         */
+        $this->repository->persist($product);
     }
 }

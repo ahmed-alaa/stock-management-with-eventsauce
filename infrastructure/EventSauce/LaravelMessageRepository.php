@@ -10,9 +10,7 @@ use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Generator;
-use Illuminate\Contracts\Config\Repository as Config;
-use Illuminate\Database\ConnectionInterface;
-use Illuminate\Database\DatabaseManager;
+use Illuminate\Database\Connection;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -21,9 +19,6 @@ use Ramsey\Uuid\Uuid;
  */
 final class LaravelMessageRepository implements MessageRepository
 {
-    /** @var DatabaseManager */
-    private $database;
-
     /** @var MessageSerializer */
     private $serializer;
 
@@ -33,22 +28,20 @@ final class LaravelMessageRepository implements MessageRepository
     /** @var string */
     private $table;
 
-    public function __construct(DatabaseManager $database, MessageSerializer $serializer, Config $config)
+    public function __construct(Connection $connection, string $tableName, MessageSerializer $serializer)
     {
-        $this->database = $database;
         $this->serializer = $serializer;
-        $this->connection = $config->get('eventsauce.connection');
-        $this->table = $config->get('eventsauce.table');
+        $this->connection = $connection;
+        $this->table = $tableName;
     }
 
     public function persist(Message ...$messages)
     {
-        $connection = $this->connection();
         collect($messages)->map(function (Message $message) {
             return $this->serializer->serializeMessage($message);
-        })->each(function (array $message) use ($connection) {
+        })->each(function (array $message) {
             $headers = $message['headers'];
-            $connection->table($this->table)->insert([
+            $this->connection->table($this->table)->insert([
                 'event_id' => $headers[Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
                 'event_type' => $headers[Header::EVENT_TYPE],
                 'aggregate_root_id' => $headers[Header::AGGREGATE_ROOT_ID] ?? null,
@@ -60,18 +53,13 @@ final class LaravelMessageRepository implements MessageRepository
 
     public function retrieveAll(AggregateRootId $id): Generator
     {
-        $payloads = $this->connection()->table($this->table)
+        $payloads = $this->connection->table($this->table)
             ->where('aggregate_root_id', $id->toString())
             ->orderBy('recorded_at')
             ->get('payload');
         foreach ($payloads as $payload) {
             yield from $this->serializer->unserializePayload(json_decode($payload->payload, true));
         }
-    }
-
-    private function connection(): ConnectionInterface
-    {
-        return $this->database->connection($this->connection);
     }
 
     public function setConnection(string $connection): void
